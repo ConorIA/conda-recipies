@@ -1,0 +1,46 @@
+language: generic
+
+os: osx
+osx_image: xcode6.4
+
+env:
+  global:
+    - secure: "dEFsJyrej44xOgl45m2sh94ZiBWN/rlLHAQEmI7uZCVKu3cmz9C8Kta8Byrf2vooUqI5hTQmlOntX8sxzpNxA0b+Jg9EU58TMi1bOqhHdUDcv0q1dHY6BCDpJN5FnAoWduN2atZA7NHxV/C1iCVftwg+Crb0aPQE58dNUZ+kMm6uYwgugGPcBRijbNaCJPqOsjaM+7OyjGFdPVfda56UGiOvOdXXggPvh7zgXwQlitFvXYY4i3uEqTw8HdWOu+PKSIL0c8mwug6pGJtuHIszYsbYBjv8P5+JIOFOGM8qs3FN+c7TkBkctPO6YyDy9h4/DsOFwIig8ujzBr5dRi4KVMdQC1/NPyYTWyW1VyeFCR8gFU9h9zTG6QlB8GtYJtkBYaHN6UnTwDeyY2b0UorKqSmyw98H3pF6YuNBbKBX9yiUHOq6KhbZyCZc9/ITQGy53C/LegF0sKANEJXoDbqqI/WxABqPUz+lnrxqUNvJ64a1ALQ4A29Zv6JaWzfxrXhwqK0UP+9oAXMZUKx1vpokoLlhN09yIMgf5KjKnSkoyU11VQdQayVEXYrDAyUsDsYc9QRd1nkMWDpVANpQ0OhldxdHfhPSiLuMSuATYqDKadDlLYiGkXn3w6ymhVg+zNpxsVBxV9K7CHPhKBzMxOVGegBISsjR9MqGoSc4qEm4ZZU="
+
+
+before_install:
+    # Remove homebrew.
+    - |
+      echo ""
+      echo "Removing homebrew from Travis CI to avoid conflicts."
+      curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall > ~/uninstall_homebrew
+      chmod +x ~/uninstall_homebrew
+      ~/uninstall_homebrew -fq
+      rm ~/uninstall_homebrew
+
+
+install:
+    # Install Miniconda.
+    - |
+      echo ""
+      echo "Installing a fresh version of Miniconda."
+      MINICONDA_URL="https://repo.continuum.io/miniconda"
+      MINICONDA_FILE="Miniconda3-latest-MacOSX-x86_64.sh"
+      curl -L -O "${MINICONDA_URL}/${MINICONDA_FILE}"
+      bash $MINICONDA_FILE -b
+
+    # Configure conda.
+    - |
+      echo ""
+      echo "Configuring conda."
+      source /Users/travis/miniconda3/bin/activate root
+      conda config --prepend channels conda-forge
+      conda config --append channels ConorIA
+      conda install --yes --quiet conda-build anaconda-client
+
+script:
+  - conda build -q .
+  
+after_success:
+  - python .ci/move-conda-package.py
+  - python .ci/anaconda-upload.py
