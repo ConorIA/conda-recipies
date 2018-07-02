@@ -21,7 +21,7 @@ install:
 build: false
 
 test_script:
-  - "%CMD_IN_ENV% del /S %except%
+  - "%CMD_IN_ENV% del /S %except%"
   - "%CMD_IN_ENV% conda build . --quiet"
   - python .ci\move-conda-package.py
 
