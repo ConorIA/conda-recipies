@@ -1,7 +1,7 @@
 environment:
   ANACONDA_API_TOKEN:
     secure: DWpOnNw7bNyTmC2oXttZM3ovxggFrV3eMeuQJYcgync8g0tqwMmYEu84cFapIRqP
-  except: "r-senamhiR"
+  except: "r-senamhir"
 
   global:
     # FROM: https://github.com/rmcgibbo/python-appveyor-conda-example
@@ -21,7 +21,7 @@ install:
 build: false
 
 test_script:
-  - "%CMD_IN_ENV% del /S %except%"
+  - "%CMD_IN_ENV% del /S /Q %except%"
   - "%CMD_IN_ENV% conda build . --quiet"
   - python .ci\move-conda-package.py
 
