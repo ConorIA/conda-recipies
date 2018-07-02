@@ -9,5 +9,9 @@ dirs = [i for i in os.listdir() if not re.search(r'\.',i)]
 
 for dir in dirs:
   binary_package_glob = os.path.join(conddir, '{0}*.tar.bz2'.format(dir))
-  binary_package = glob.glob(binary_package_glob)[0]
-  shutil.move(binary_package, '.')
+  binary_package = glob.glob(binary_package_glob)
+  if binary_package != []:
+    print("Moving package", binary_package[0])
+    shutil.move(binary_package[0], '.')
+  else:
+    print("No package for", dir)
