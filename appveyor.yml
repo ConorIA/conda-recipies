@@ -1,0 +1,25 @@
+environment:
+  ANACONDA_API_TOKEN:
+    secure: DWpOnNw7bNyTmC2oXttZM3ovxggFrV3eMeuQJYcgync8g0tqwMmYEu84cFapIRqP
+
+  global:
+    # FROM: https://github.com/rmcgibbo/python-appveyor-conda-example
+    CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\continuous-integration\\appveyor\\run_with_env.cmd"
+
+  matrix:
+    - PYTHON: "C:\\Python36_64"
+      PYTHON_VERSION: "3.6"
+      PYTHON_ARCH: "64"
+
+install:
+  - powershell .\\ci\\appveyor\\install.ps1
+  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
+
+build: false
+
+test_script:
+  - "%CMD_IN_ENV% conda build . --quiet"
+  - python continuous-integration\move-conda-package.py conda-recipe
+
+on_success:
+  - python ci\anaconda-upload.py
