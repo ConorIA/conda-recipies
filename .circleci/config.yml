@@ -11,9 +11,9 @@ jobs:
       - run: conda install -yq conda-build
       - run: conda build -q .
       - persist_to_workspace:
-          root: /opt/conda/
+          root: /opt/conda/conda-bld/
           paths:
-            - conda-bld      
+            - */*.tar.bz2
   upload:
     docker:
       - image: continuumio/miniconda3:latest
@@ -21,8 +21,8 @@ jobs:
       - checkout
       - run: conda install -yq anaconda-client
       - attach_workspace:
-          at: packages
-      - run: anaconda upload --summary "Uploaded by CircleCI" packages/*/*.tar.bz2 --force
+          at: pkgs
+      - run: anaconda upload --summary "Uploaded by CircleCI" pkgs/*/*.tar.bz2 --force
 
 workflows:
   version: 2
