@@ -1,0 +1,34 @@
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: continuumio/miniconda3:latest
+    steps:
+      - checkout
+      - run: conda config --prepend channels conda-forge
+      - run: conda config --append channels ConorIA
+      - run: conda install -yq conda-build
+      - run: conda build -q .
+      - persist_to_workspace:
+          root: /opt/conda/
+          paths:
+            - conda-bld      
+  upload:
+    docker:
+      - image: continuumio/miniconda3:latest
+    steps:
+      - checkout
+      - run: conda install -yq anaconda-client
+      - attach_workspace:
+          at: packages
+      - run: anaconda upload --summary "Uploaded by CircleCI" packages/*/*.tar.bz2 --force
+
+workflows:
+  version: 2
+  run_all:
+    jobs:
+      - build
+      - upload:
+          requires:
+            - build
