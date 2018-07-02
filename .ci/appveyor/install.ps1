@@ -1,17 +1,12 @@
-# Sample script to install Miniconda under Windows
-# Authors: Olivier Grisel, Jonathan Helmus and Kyle Kastner, Robert McGibbon
+# Adaoted from: Sample script to install Miniconda under Windows
+# Original authors: Olivier Grisel, Jonathan Helmus and Kyle Kastner, Robert McGibbon
 # License: CC0 1.0 Universal: http://creativecommons.org/publicdomain/zero/1.0/
 
 $MINICONDA_URL = "http://repo.continuum.io/miniconda/"
 
-
 function DownloadMiniconda ($python_version, $platform_suffix) {
     $webclient = New-Object System.Net.WebClient
-    if ($python_version -match "3.4") {
-        $filename = "Miniconda3-latest-Windows-" + $platform_suffix + ".exe"
-    } else {
-        $filename = "Miniconda-latest-Windows-" + $platform_suffix + ".exe"
-    }
+    $filename = "Miniconda3-latest-Windows-" + $platform_suffix + ".exe"
     $url = $MINICONDA_URL + $filename
 
     $basedir = $pwd.Path + "\"
@@ -49,11 +44,7 @@ function InstallMiniconda ($python_version, $architecture, $python_home) {
         Write-Host $python_home "already exists, skipping."
         return $false
     }
-    if ($architecture -match "32") {
-        $platform_suffix = "x86"
-    } else {
-        $platform_suffix = "x86_64"
-    }
+    $platform_suffix = "x86_64"
 
     $filepath = DownloadMiniconda $python_version $platform_suffix
     Write-Host "Installing" $filepath "to" $python_home
@@ -77,6 +68,7 @@ function InstallCondaPackages ($python_home, $spec) {
     Write-Host ("conda " + $args)
     Start-Process -FilePath "$conda_path" -ArgumentList $args -Wait -Passthru
 }
+
 
 function UpdateConda ($python_home) {
     $conda_path = $python_home + "\Scripts\conda.exe"
