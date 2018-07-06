@@ -1,5 +1,4 @@
 {% set version = '0.6.3' %}
-
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
 
@@ -10,21 +9,14 @@ package:
 source:
   git_url: https://gitlab.com/ConorIA/senamhiR.git
   git_tag: master
-  # patches:
-   # List any patch files here
-   # - fix.patch
 
 build:
-  # If this is a new build for the same version, increment the build number.
   number: 0
   skip: True  # [win]
-
-  # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
-# Suggests: testthat, covr
 requirements:
   build:
     - r-base
@@ -48,15 +40,7 @@ requirements:
 
 test:
   commands:
-    # You can put additional test commands to be run here.
     - $R -e "library('senamhiR')"  # [not win]
-    - "\"%R%\" -e \"library('senamhiR')\""  # [win]
-
-  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
-  # in the recipe that will be run at test time.
-
-  # requires:
-    # Put any additional test requirements here.
 
 about:
   home: https://gitlab.com/ConorIA/senamhiR
@@ -64,28 +48,8 @@ about:
   summary: A collection of functions to obtain archived Peruvian climatological
     or hydrological data form the Peruvian National Meterology and Hydrology
     Service.
-  license_family: GPL
+  license_family: GPL3
 
-# The original metadata for this package was:
-
-# Package: senamhiR
-# Type: Package
-# Title: A Collection of Functions to Obtain Peruvian Climate Data
-# Version: 0.6.3
-# Date: 2018-06-27
-# Authors@R: c(person(given = c("Conor", "I."), family = "Anderson", role = c("aut","cre"), email = "conor.anderson@utoronto.ca"), person(given = c("William", "A."), family = "Gough", role = "ths", email = "gough@utsc.utoronto.ca"))
-# Maintainer: Conor I. Anderson <conor.anderson@utoronto.ca>
-# Description: A collection of functions to obtain archived Peruvian climatological or hydrological data form the Peruvian National Meterology and Hydrology Service.
-# Depends: R (>= 3.1.0)
-# Imports: DBI, dplyr, geosphere, leaflet, RMySQL, tibble, utils, zoo
-# Suggests: testthat, covr
-# License: GPL (>= 3)
-# URL: https://gitlab.com/ConorIA/senamhiR/
-# BugReports: https://gitlab.com/ConorIA/senamhiR/issues
-# LazyData: TRUE
-# RoxygenNote: 6.0.1
-# Author: Conor I. Anderson [aut, cre], William A. Gough [ths]
-
-# See
-# http://docs.continuum.io/conda/build.html for
-# more information about meta.yaml
+extra:
+  recipie-maintainers:
+    - ConorIA
