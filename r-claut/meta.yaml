@@ -12,7 +12,6 @@ source:
 
 build:
   number: 0
-  skip: True  # [win]
   rpaths:
     - lib/R/lib/
     - lib/
@@ -50,14 +49,15 @@ requirements:
 
 test:
   commands:
-    - $R -e "library('claut')"  # [not win]
+    - $R -e "library('claut')"           # [not win]
+    - "\"%R%\" -e \"library('claut')\""  # [win]
 
 about:
   home: https://gitlab.com/ConorIA/claut
   license: GPL-3
   summary:  Collection of functions developed at the University of
-    Toronto Climate lab, often stylized as \"Climate Lab at
-    University of Toronto, CL@UT\".
+    Toronto Climate lab, often stylized as "Climate Lab at
+    University of Toronto, CL@UT".
 
   license_family: GPL3
 
