@@ -27,7 +27,6 @@ requirements:
     - r-iterators
     - r-lpsolve
     - r-lubridate
-    - r-parallel
     - r-readr
     - r-reshape2
     - r-rlang
@@ -43,7 +42,6 @@ requirements:
     - r-iterators
     - r-lpsolve
     - r-lubridate
-    - r-parallel
     - r-readr
     - r-reshape2
     - r-rlang
