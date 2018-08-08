@@ -1,0 +1,68 @@
+{% set version = '0.1.6' %}
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-claut
+  version: {{ version|replace("-", "_") }}
+
+source:
+  git_url: https://gitlab.com/ConorIA/claut.git
+  git_tag: master
+
+build:
+  number: 0
+  skip: True  # [win]
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+requirements:
+  build:
+    - r-base
+    - r-doparallel
+    - r-dplyr
+    - r-foreach
+    - r-gdata
+    - r-iterators
+    - r-lpsolve
+    - r-lubridate
+    - r-parallel
+    - r-readr
+    - r-reshape2
+    - r-rlang
+    - r-tibble
+    - r-zoo
+
+  run:
+    - r-base
+    - r-doparallel
+    - r-dplyr
+    - r-foreach
+    - r-gdata
+    - r-iterators
+    - r-lpsolve
+    - r-lubridate
+    - r-parallel
+    - r-readr
+    - r-reshape2
+    - r-rlang
+    - r-tibble
+    - r-zoo
+
+test:
+  commands:
+    - $R -e "library('claut')"  # [not win]
+
+about:
+  home: https://gitlab.com/ConorIA/claut
+  license: GPL-3
+  summary:  Collection of functions developed at the University of
+    Toronto Climate lab, often stylized as \"Climate Lab at
+    University of Toronto, CL@UT\".
+
+  license_family: GPL3
+
+extra:
+  recipie-maintainers:
+    - ConorIA
