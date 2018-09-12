@@ -6,6 +6,7 @@ jobs:
       - image: continuumio/miniconda3:latest
     steps:
       - checkout
+      - run: conda update -yq conda
       - run: conda config --prepend channels conda-forge
       - run: conda config --append channels ConorIA
       - run: conda install -yq conda-build

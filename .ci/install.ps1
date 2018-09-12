@@ -1,12 +1,14 @@
-# Adaoted from: Sample script to install Miniconda under Windows
+# Adapted from: Sample script to install Miniconda under Windows
 # Original authors: Olivier Grisel, Jonathan Helmus and Kyle Kastner, Robert McGibbon
 # License: CC0 1.0 Universal: http://creativecommons.org/publicdomain/zero/1.0/
 
 $MINICONDA_URL = "http://repo.continuum.io/miniconda/"
+$CONDA_HOME = $env:CONDA_HOME
+$CONDA_PATH = $env:CONDA_PATH
 
-function DownloadMiniconda ($python_version, $platform_suffix) {
+function DownloadMiniconda () {
     $webclient = New-Object System.Net.WebClient
-    $filename = "Miniconda3-latest-Windows-" + $platform_suffix + ".exe"
+    $filename = "Miniconda3-latest-Windows-x86_64.exe"
     $url = $MINICONDA_URL + $filename
 
     $basedir = $pwd.Path + "\"
@@ -38,51 +40,48 @@ function DownloadMiniconda ($python_version, $platform_suffix) {
 }
 
 
-function InstallMiniconda ($python_version, $architecture, $python_home) {
-    Write-Host "Installing Python" $python_version "for" $architecture "bit architecture to" $python_home
-    if (Test-Path $python_home) {
-        Write-Host $python_home "already exists, skipping."
+function InstallMiniconda () {
+    Write-Host "Installing Python for 64 bit architecture to" $CONDA_HOME
+    if (Test-Path $CONDA_HOME) {
+        Write-Host $CONDA_HOME "already exists, skipping."
         return $false
     }
-    $platform_suffix = "x86_64"
 
-    $filepath = DownloadMiniconda $python_version $platform_suffix
-    Write-Host "Installing" $filepath "to" $python_home
-    $install_log = $python_home + ".log"
-    $args = "/S /D=$python_home"
+    $filepath = DownloadMiniconda
+    Write-Host "Installing" $filepath "to" $CONDA_HOME
+    $install_log = $CONDA_HOME + ".log"
+    $args = "/S /D=$CONDA_HOME"
     Write-Host $filepath $args
     Start-Process -FilePath $filepath -ArgumentList $args -Wait -Passthru
-    if (Test-Path $python_home) {
-        Write-Host "Python $python_version ($architecture) installation complete"
+    if (Test-Path $CONDA_HOME) {
+        Write-Host "Python installation complete"
     } else {
-        Write-Host "Failed to install Python in $python_home"
+        Write-Host "Failed to install Python in $CONDA_HOME"
         Get-Content -Path $install_log
         Exit 1
     }
 }
 
 
-function InstallCondaPackages ($python_home, $spec) {
-    $conda_path = $python_home + "\Scripts\conda.exe"
-    $args = "install --yes " + $spec
+function InstallCondaPackages ($spec) {
+    $args = "install -yq " + $spec
     Write-Host ("conda " + $args)
-    Start-Process -FilePath "$conda_path" -ArgumentList $args -Wait -Passthru
+    Start-Process -FilePath "$CONDA_PATH" -ArgumentList $args -Wait -Passthru
 }
 
 
-function UpdateConda ($python_home) {
-    $conda_path = $python_home + "\Scripts\conda.exe"
+function UpdateConda () {
     Write-Host "Updating conda..."
-    $args = "update --yes conda"
-    Write-Host $conda_path $args
-    Start-Process -FilePath "$conda_path" -ArgumentList $args -Wait -Passthru
+    $args = "update -yq conda"
+    Write-Host $CONDA_PATH $args
+    Start-Process -FilePath "$CONDA_PATH" -ArgumentList $args -Wait -Passthru
 }
 
 
 function main () {
-    InstallMiniconda $env:PYTHON_VERSION $env:PYTHON_ARCH $env:PYTHON
-    UpdateConda $env:PYTHON
-    InstallCondaPackages $env:PYTHON "conda-build jinja2 anaconda-client"
+    InstallMiniconda
+    UpdateConda
+    InstallCondaPackages "conda-build jinja2 anaconda-client"
 }
 
 main

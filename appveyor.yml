@@ -1,27 +1,22 @@
 environment:
   ANACONDA_API_TOKEN:
     secure: DWpOnNw7bNyTmC2oXttZM3ovxggFrV3eMeuQJYcgync8g0tqwMmYEu84cFapIRqP
-
-  global:
-    # FROM: https://github.com/rmcgibbo/python-appveyor-conda-example
-    CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\.ci\\run_with_env.cmd"
-
-  matrix:
-    - PYTHON: "C:\\Python36_64"
-      PYTHON_VERSION: "3.6"
-      PYTHON_ARCH: "64"
-
+  CONDA_HOME: "C:\\Miniconda3"
+  CONDA_PATH: "%CONDA_HOME%\\Scripts\\conda.exe"
+    
 install:
+  # Install Miniconda.
   - powershell .\\.ci\\install.ps1
-  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
-  - "%CMD_IN_ENV% conda config --prepend channels conda-forge"
-  - "%CMD_IN_ENV% conda config --append channels ConorIA"
+  # Configure conda.
+  - |
+    "%CONDA_PATH%" config --prepend channels conda-forge
+    "%CONDA_PATH%" config --append channels ConorIA
 
 build: false
 
 test_script:
-  - "%CMD_IN_ENV% conda build -q ."
-  - python .ci\move-conda-package.py
+  - "%CONDA_PATH%" build -q .
 
 on_success:
+  - python .ci\move-conda-package.py
   - python .ci\anaconda-upload.py
