@@ -19,7 +19,7 @@ build:
 
 requirements:
   build:
-    - r-base
+    - r-base {{ r_base }}
     - r-dbi
     - r-dplyr
     - r-geosphere
@@ -29,7 +29,7 @@ requirements:
     - r-zoo
 
   run:
-    - r-base
+    - r-base {{ r_base }}
     - r-dbi
     - r-dplyr
     - r-geosphere

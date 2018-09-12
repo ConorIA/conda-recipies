@@ -19,7 +19,7 @@ build:
 requirements:
   build:
   host:
-    - r-base
+    - r-base {{ r_base }}
     - r-readr
     - r-tibble
     - r-curl
@@ -27,7 +27,7 @@ requirements:
     - r-zoo
 
   run:
-    - r-base
+    - r-base {{ r_base }}
     - r-readr
     - r-tibble
     - r-curl

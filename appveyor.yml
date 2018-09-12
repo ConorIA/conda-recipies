@@ -15,7 +15,7 @@ install:
 build: false
 
 test_script:
-  - "%CONDA_PATH% build -q ."
+  - "%CONDA_PATH% build -q -m .ci/variants.yaml ."
 
 on_success:
   - python .ci\move-conda-package.py

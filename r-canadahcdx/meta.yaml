@@ -19,7 +19,7 @@ build:
 requirements:
   build:
   host:
-    - r-base
+    - r-base {{ r_base }}
     - r-canadaHCD
     - r-curl
     - r-dplyr
@@ -33,7 +33,7 @@ requirements:
     - r-zoo
 
   run:
-    - r-base
+    - r-base {{ r_base }}
     - r-canadaHCD
     - r-curl
     - r-dplyr

@@ -10,7 +10,7 @@ jobs:
       - run: conda config --prepend channels conda-forge
       - run: conda config --append channels ConorIA
       - run: conda install -yq conda-build
-      - run: conda build -q .
+      - run: conda build -q -m .ci/variants.yaml .
       - persist_to_workspace:
           root: /opt/conda/conda-bld/
           paths:

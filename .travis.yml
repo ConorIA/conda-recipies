@@ -45,7 +45,7 @@ install:
       conda install -yq conda-build anaconda-client
 
 script:
-  - conda build -q .
+  - conda build -q -m .ci/variants.yaml .
   
 after_success:
   - python .ci/move-conda-package.py
