@@ -6,11 +6,11 @@ jobs:
       - image: continuumio/miniconda3:latest
     steps:
       - checkout
-      - run: conda update -yq conda
+      - run: apt-get update -qq && apt-get -yqq install binutils #FIXME
       - run: conda config --prepend channels conda-forge
       - run: conda config --append channels ConorIA
-      - run: conda install -yq conda-build
-      - run: conda build -q -m .ci/variants.yaml .
+      - run: conda install -yq conda conda-build
+      - run: conda build -q -m $PWD/.ci/variants.yaml .
       - persist_to_workspace:
           root: /opt/conda/conda-bld/
           paths:

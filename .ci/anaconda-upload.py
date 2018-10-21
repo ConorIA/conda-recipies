@@ -3,7 +3,7 @@ import glob
 import subprocess
 import traceback
 
-cmd = ['anaconda', 'upload', '--summary', '"Uploaded by Appveyor"', '--force']
+cmd = ['anaconda', 'upload', '--summary', '"Uploaded by CI"', '--force']
 cmd.extend(glob.glob('*.tar.bz2'))
 try:
     subprocess.check_call(cmd)

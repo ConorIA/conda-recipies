@@ -1,22 +1,28 @@
 environment:
   ANACONDA_API_TOKEN:
     secure: DWpOnNw7bNyTmC2oXttZM3ovxggFrV3eMeuQJYcgync8g0tqwMmYEu84cFapIRqP
-  CONDA_HOME: "C:\\Miniconda3"
-  CONDA_PATH: "%CONDA_HOME%\\Scripts\\conda.exe"
     
 install:
-  # Install Miniconda.
-  - powershell .\\.ci\\install.ps1
+  # Remove cygwin because the conda-forge folks do it
+  - cmd: rmdir C:\cygwin /s /q
   # Configure conda.
-  - |
-    "%CONDA_PATH%" config --prepend channels conda-forge
-    "%CONDA_PATH%" config --append channels ConorIA
+  - cmd: |
+      call C:\Miniconda3-x64\Scripts\activate.bat
+      conda.exe config --prepend channels conda-forge
+      conda.exe config --append channels ConorIA
+      conda.exe update -yq conda
+      conda.exe install -yq conda-build jinja2 anaconda-client
 
 build: false
 
 test_script:
-  - "%CONDA_PATH% build -q -m .ci/variants.yaml ."
+  - cmd: |
+      call C:\Miniconda3-x64\Scripts\activate.bat
+      conda.exe build -q -m %cd%\.ci\variants.yaml .
+
+on_failure:
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 on_success:
-  - python .ci\move-conda-package.py
-  - python .ci\anaconda-upload.py
+  - cmd: python %cd%\.ci\move-conda-package.py
+  - cmd: python %cd%\.ci\anaconda-upload.py
