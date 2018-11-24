@@ -11,8 +11,8 @@ source:
   git_tag: master
 
 build:
-  number: 0
-  skip: True  # [win]
+  noarch: generic
+  number: 1
   rpaths:
     - lib/R/lib/
     - lib/
