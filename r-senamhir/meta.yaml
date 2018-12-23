@@ -1,4 +1,4 @@
-{% set version = '0.6.5' %}
+{% set version = '0.7.0' %}
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
 
@@ -20,21 +20,19 @@ build:
 requirements:
   build:
     - r-base {{ r_base }}
-    - r-dbi
     - r-dplyr
     - r-geosphere
-    - r-leaflet
-    - r-rmysql
+    - r-httr
+    - r-rlang
     - r-tibble
     - r-zoo
 
   run:
     - r-base {{ r_base }}
-    - r-dbi
     - r-dplyr
     - r-geosphere
-    - r-leaflet
-    - r-rmysql
+    - r-httr
+    - r-rlang
     - r-tibble
     - r-zoo
 

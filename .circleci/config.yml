@@ -6,11 +6,18 @@ jobs:
       - image: continuumio/miniconda3:latest
     steps:
       - checkout
+      - run: >
+          COMMIT_MESSAGE=$(git log --format=oneline -n 1 $CIRCLE_SHA1) &&
+          for file in $(ls .); do 
+            if $(echo $COMMIT_MESSAGE | grep -Eq "${file}\s"); then
+              folder=${file};
+            fi; done && if [ "$folder" = "" ]; then folder="."; fi &&
+          echo $folder > .folder
       - run: apt-get update -qq && apt-get -yqq install binutils #FIXME
       - run: conda config --prepend channels conda-forge
       - run: conda config --append channels ConorIA
       - run: conda install -yq conda conda-build
-      - run: conda build -q -m $PWD/.ci/variants.yaml .
+      - run: conda build -q -m $PWD/.ci/variants.yaml $(cat .folder)
       - persist_to_workspace:
           root: /opt/conda/conda-bld/
           paths:
