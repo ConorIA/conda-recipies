@@ -1,4 +1,4 @@
-{% set version = '0.0.6' %}
+{% set version = '0.0.7' %}
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
 
@@ -25,7 +25,6 @@ requirements:
     - r-curl
     - r-dplyr
     - r-geosphere
-    - r-leaflet
     - r-rappdirs
     - r-readr
     - r-rlang
@@ -39,7 +38,6 @@ requirements:
     - r-curl
     - r-dplyr
     - r-geosphere
-    - r-leaflet
     - r-rappdirs
     - r-readr
     - r-rlang
