@@ -9,19 +9,19 @@ source:
 
 build:
   noarch: generic
-  number: 1000
+  number: 1001
   script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir -vvv"
 
 requirements:
   host:
-    - python
+    - "python>=3.7.1"
     - pip
     - docopt
     - geopy
     - pandas
     - tqdm
   run:
-    - python
+    - "python>=3.7.1"
     - docopt
     - geopy
     - pandas
