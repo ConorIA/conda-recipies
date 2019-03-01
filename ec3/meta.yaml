@@ -1,4 +1,4 @@
-{% set version = "2.1.5" %}
+{% set version = "2.1.6" %}
 
 package:
   name: ec3
@@ -9,7 +9,7 @@ source:
 
 build:
   noarch: generic
-  number: 1001
+  number: 1000
   script: "{{ PYTHON }} setup.py install || exit 1;"
 
 requirements:
