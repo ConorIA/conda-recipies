@@ -9,8 +9,8 @@ source:
 
 build:
   noarch: generic
-  number: 1000
-  script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir -vvv"
+  number: 1001
+  script: "{{ PYTHON }} setup.py install || exit 1;"
 
 requirements:
   host:
