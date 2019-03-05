@@ -8,8 +8,8 @@ source:
   git_url: https://github.com/ConorIA/ec3.py.git
 
 build:
-  noarch: generic
-  number: 1000
+  noarch: python
+  number: 1001
   script: "{{ PYTHON }} setup.py install || exit 1;"
 
 requirements:
