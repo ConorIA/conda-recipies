@@ -30,7 +30,7 @@ jobs:
       - run: conda install -yq anaconda-client
       - attach_workspace:
           at: pkgs
-      - run: anaconda upload --summary "Uploaded by CircleCI" pkgs/*/*.tar.bz2 --force
+      - run: anaconda -t $CONDA_UPLOAD_TOKEN upload --summary "Uploaded by CircleCI" pkgs/*/*.tar.bz2 --force
 
 workflows:
   version: 2
