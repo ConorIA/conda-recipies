@@ -21,7 +21,7 @@ requirements:
   build:
     - r-base {{ r_base }}
     - r-doparallel
-    - r-dplyr
+    - r-dplyr >=1.0.0
     - r-foreach
     - r-gdata
     - r-iterators
@@ -36,7 +36,7 @@ requirements:
   run:
     - r-base {{ r_base }}
     - r-doparallel
-    - r-dplyr
+    - r-dplyr >=1.0.0
     - r-foreach
     - r-gdata
     - r-iterators
